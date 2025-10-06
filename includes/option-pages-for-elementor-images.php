@@ -48,18 +48,21 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
         }
 
         public function get_value( array $options = [] ) {
-            $selected = $this->get_settings( 'acf_field_name' );
-            $post_id  = intval( $this->get_settings( 'business_post_id' ) );
+            $selected = $this->get_settings('acf_field_name');
+            if ( ! $selected ) return [];
 
-            if ( ! $selected || ! $post_id ) {
-                return [];
-            }
+            // Handle "postid||field_name"
+            if ( strpos( $selected, '||' ) === false ) return [];
 
-            $value = function_exists( 'get_field' ) ? get_field( $selected, $post_id ) : get_post_meta( $post_id, $selected, true );
+            list( $post_id, $field_identifier ) = explode( '||', $selected, 2 );
+            $post_id = intval( $post_id );
+
+            $value = function_exists( 'get_field' ) 
+                ? get_field( $field_identifier, $post_id ) 
+                : get_post_meta( $post_id, $field_identifier, true );
 
             // Case: ACF returns image array
-            if ( is_array( $value ) && isset( $value['ID'] ) && ( isset( $value['url'] ) || isset( $value['sizes'] ) ) ) {
-                // try to build url
+            if ( is_array( $value ) && isset( $value['ID'] ) ) {
                 $url = isset( $value['url'] ) ? $value['url'] : wp_get_attachment_url( $value['ID'] );
                 return [
                     'id'  => intval( $value['ID'] ),
@@ -67,7 +70,7 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
                 ];
             }
 
-            // If numeric attachment ID
+            // If numeric ID
             if ( is_numeric( $value ) && wp_attachment_is_image( $value ) ) {
                 return [
                     'id'  => intval( $value ),

@@ -61,7 +61,6 @@ add_action( 'elementor/dynamic_tags/register_tags', function( $dynamic_tags ) {
                     'label'       => __( 'Array Key', 'textdomain' ),
                     'type'        => \Elementor\Controls_Manager::TEXT,
                     'placeholder' => 'e.g. url, title, etc.',
-                    'section'     => \Elementor\Controls_Manager::TAB_ADVANCED,
                 ]
             );
         }
