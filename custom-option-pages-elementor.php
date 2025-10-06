@@ -51,3 +51,19 @@ add_action( 'init', function() {
     require_once __DIR__ . '/includes/option-pages-for-elementor.php';
     require_once __DIR__ . '/includes/option-pages-for-elementor-images.php';
 });
+
+// --- GitHub auto-update setup ---
+require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+
+// Create the update checker
+$MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/tomfransenmedia/custom-option-pages-elementor/', // GitHub repo URL
+    __FILE__, // Full path to the main plugin file
+    'custom-option-pages-elementor' // Plugin slug (usually the folder name)
+);
+
+// For private repos (optional): add GitHub token
+// $MyUpdateChecker->setAuthentication('YOUR_PERSONAL_ACCESS_TOKEN_HERE');
+
+// Specify the branch to track
+$MyUpdateChecker->setBranch('main');
