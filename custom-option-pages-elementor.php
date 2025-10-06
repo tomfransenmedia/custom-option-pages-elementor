@@ -53,17 +53,22 @@ add_action( 'init', function() {
 });
 
 // --- GitHub auto-update setup ---
-require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+add_action('init', function() {
+    $update_checker_path = __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+    if ( file_exists( $update_checker_path ) ) {
+        require_once $update_checker_path;
 
-// Create the update checker
-$MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-    'https://github.com/tomfransenmedia/custom-option-pages-elementor/', // GitHub repo URL
-    __FILE__, // Full path to the main plugin file
-    'custom-option-pages-elementor' // Plugin slug (usually the folder name)
-);
+        if ( class_exists('Puc_v4_Factory') ) {
+            $MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+                'https://github.com/tomfransenmedia/custom-option-pages-elementor/',
+                __FILE__,
+                'custom-option-pages-elementor'
+            );
 
-// For private repos (optional): add GitHub token
-// $MyUpdateChecker->setAuthentication('YOUR_PERSONAL_ACCESS_TOKEN_HERE');
+            // Optional: add token for private repo
+            // $MyUpdateChecker->setAuthentication('YOUR_GITHUB_TOKEN');
 
-// Specify the branch to track
-$MyUpdateChecker->setBranch('main');
+            $MyUpdateChecker->setBranch('main');
+        }
+    }
+});
