@@ -62,7 +62,7 @@ add_action('init', function() {
             $MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
                 'https://github.com/tomfransenmedia/custom-option-pages-elementor',
                 __FILE__,
-                'option-pages-for-elementor'
+                'custom-option-pages-for-elementor'
             );
 
             // Optional: add token for private repo
