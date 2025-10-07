@@ -3,7 +3,7 @@
 Plugin Name: Custom Option Pages for Elementor
 Plugin URI: https://tomfransen.nl
 Description: Implements custom option pages / reusable content via ACF and exposes them as dynamic tags in Elementor Pro.
-Version: 1.0.6
+Version: 1.0.7
 Author: TomFransen Media
 Author URI: https://tomfransen.nl
 Text Domain: custom-option-pages-elementor
@@ -67,8 +67,6 @@ add_action('init', function() {
 
             // Optional: add token for private repo
             // $MyUpdateChecker->setAuthentication('YOUR_GITHUB_TOKEN');
-
-            $MyUpdateChecker->setBranch('main');
         }
     }
 });
