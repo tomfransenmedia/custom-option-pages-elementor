@@ -3,7 +3,7 @@
 Plugin Name: Custom Option Pages for Elementor
 Plugin URI: https://tomfransen.nl
 Description: Implements custom option pages / reusable content via ACF and exposes them as dynamic tags in Elementor Pro.
-Version: 1.0.8
+Version: 1.1.0
 Author: TomFransen Media
 Author URI: https://tomfransen.nl
 Text Domain: custom-option-pages-elementor
@@ -53,20 +53,16 @@ add_action( 'init', function() {
 });
 
 // --- GitHub auto-update setup ---
-add_action('init', function() {
-    $update_checker_path = __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
-    if ( file_exists( $update_checker_path ) ) {
-        require_once $update_checker_path;
+require_once __DIR__ . '/plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
-        if ( class_exists('Puc_v4_Factory') ) {
-            $MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-                'https://github.com/tomfransenmedia/custom-option-pages-elementor',
-                __FILE__,
-                'custom-option-pages-elementor'
-            );
+add_action('plugins_loaded', function() {
+    $myUpdateChecker = PucFactory::buildUpdateChecker(
+        'https://github.com/tomfransenmedia/custom-option-pages-elementor/',
+        __FILE__,
+        'custom-option-pages-elementor'
+    );
 
-            // Optional: add token for private repo
-            // $MyUpdateChecker->setAuthentication('YOUR_GITHUB_TOKEN');
-        }
-    }
+    $myUpdateChecker->setBranch('main'); // adjust if needed
+    $myUpdateChecker->getVcsApi()->enableReleaseAssets(); // for GitHub release zips
 });
