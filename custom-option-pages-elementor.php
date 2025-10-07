@@ -7,6 +7,7 @@ Version: 1.1.0
 Author: TomFransen Media
 Author URI: https://tomfransen.nl
 Text Domain: custom-option-pages-elementor
+Plugin Icon: assets/icon-128x128.png
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
